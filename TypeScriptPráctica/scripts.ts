@@ -159,7 +159,7 @@ function Main( ) {
 
             if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                 jugador1.dinero += sacarEnemigo.soltarDinero();
-                console.log(`${jugador1} Gana la batalla y recibe oro extra.`);
+                console.log(`El jugador ${jugador1.nombre} gana la batalla y recibe oro extra.`);
             }else{
                 var diferenciaFuerza = fuerzaEnemigo-jugador1.puntosAtaque;
                 jugador1.puntosSalud -=  diferenciaFuerza;
@@ -170,7 +170,7 @@ function Main( ) {
                 }
             }
 
-            console.log(`Te enfrentas a ${sacarEnemigo}.`);
+            console.log(`Te enfrentas a ${sacarEnemigo.nombre}.`);
         }
         function comprarItems() {
             const itemsDisponibles: Item[] = [
