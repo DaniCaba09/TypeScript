@@ -143,6 +143,10 @@ function Main( ) {
     }
     //Intro();
     function Menu() {
+
+        function comprarItems() {
+            
+        }
         console.log("\nSeleccione una opción:");
         console.log("1. Luchar contra el enemigo");
         console.log("2. Comprar ítems");
