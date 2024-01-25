@@ -61,11 +61,11 @@ class Enemigo {
     private _puntosAtaque: number;
     private _puntosSalud: number;
 
-    constructor(nombre: string) {
+    constructor(nombre: string, puntosAtaque: number, puntosSalud: number) {
         this._nombre = nombre;
-        this._puntosAtaque = 0;
+        this._puntosAtaque = puntosAtaque;
         this.calcularFuerzaEnemigo();
-        this._puntosSalud = 10; // Puntos de salud inicial
+        this._puntosSalud = puntosSalud; // Puntos de salud inicial
     }
 
     get nombre(): string {
@@ -104,16 +104,9 @@ class Enemigo {
     }
 }
 
-// Ejemplo de uso
-const enemigo1 = new Enemigo("Enemigo1");
-console.log(`Nombre del enemigo: ${enemigo1.nombre}`);
-console.log(`Puntos de Salud del enemigo: ${enemigo1.puntosSalud}`);
-console.log(`Puntos de Ataque del enemigo: ${enemigo1.puntosAtaque}`);
-console.log(`Dinero que soltará el enemigo: ${enemigo1.soltarDinero()}`);
 
-// Ejemplo de uso
-const jugador1 = new Jugador("Jugador1");
-jugador1.imprimirAtributos();
+
+
 
 //Función Main
 
