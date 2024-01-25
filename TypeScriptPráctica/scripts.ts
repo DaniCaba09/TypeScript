@@ -62,9 +62,8 @@ class Enemigo {
     private _puntosAtaque: number;
     private _puntosSalud: number;
 
-    constructor(nombre: string, puntosAtaque: number, puntosSalud: number) {
+    constructor(nombre: string, puntosSalud: number) {
         this._nombre = nombre;
-        this._puntosAtaque = puntosAtaque;
         this.calcularFuerzaEnemigo();
         this._puntosSalud = puntosSalud; // Puntos de salud inicial
     }
@@ -100,12 +99,20 @@ class Enemigo {
 
     soltarDinero(): number {
         // Generar aleatoriamente la cantidad de dinero que soltará el enemigo (por ejemplo, entre 1 y 5)
-        const cantidadDinero = Math.floor(Math.random() * 5) + 1;
+        const cantidadDinero = Math.floor(Math.random() * 150) + 1;
         return cantidadDinero;
     }
 }
 
-
+// Definición de tipos para representar un ítem y las estadísticas que proporciona
+type Item = {
+    nombre: string;
+    precio: number;
+    stats: {
+        ataque?: number;
+        curacion?: number;
+    };
+};
 
 
 
@@ -122,14 +129,16 @@ function Main( ) {
         jugador1.dinero--;
         console.log(jugador1.dinero);
         console.log(jugador1.puntosAtaque);
+        console.log(jugador1.puntosSalud);
+
 
     }
 
-    const ElDestructordeClientes = new Enemigo ('ElDestructordeClientes',1,100);
-    const ElColetas = new Enemigo ('ElColetas',3,80);
-    const AzotadoraServer = new Enemigo ('AzotadoraServer', 1, 130);
-    const CambridgedeAlbolote = new Enemigo ('CambridgedeAlbolote',8, 50);
-    const LadySL = new Enemigo ('LadySL',5, 120);
+    const ElDestructordeClientes = new Enemigo ('ElDestructordeClientes',100);
+    const ElColetas = new Enemigo ('ElColetas',80);
+    const AzotadoraServer = new Enemigo ('AzotadoraServer', 130);
+    const CambridgedeAlbolote = new Enemigo ('CambridgedeAlbolote', 50);
+    const LadySL = new Enemigo ('LadySL', 120);
 
     //Array de enemigos (no tomarlo mal)
     const Enemigos = [ElDestructordeClientes, ElColetas, AzotadoraServer, CambridgedeAlbolote, LadySL];
@@ -143,9 +152,64 @@ function Main( ) {
     }
     //Intro();
     function Menu() {
+        function lucharEnemigo() {
 
+            const sacarEnemigo = Enemigos[Math.floor(Math.random()* Enemigos.length)];
+            const fuerzaEnemigo = sacarEnemigo.puntosAtaque;
+
+            if (jugador1.puntosAtaque >= fuerzaEnemigo) {
+                jugador1.dinero += sacarEnemigo.soltarDinero();
+                console.log(`${jugador1} Gana la batalla y recibe oro extra.`);
+            }else{
+                var diferenciaFuerza = fuerzaEnemigo-jugador1.puntosAtaque;
+                jugador1.puntosSalud -=  diferenciaFuerza;
+                console.log(`Has perdido ${diferenciaFuerza} puntos de salud.`)
+                if (jugador1.puntosSalud <= 0) {
+                    console.log('Se acabó, buena suerte pringao JAJAJ')
+                    flag = false;
+                }
+            }
+
+            console.log(`Te enfrentas a ${sacarEnemigo}.`);
+        }
         function comprarItems() {
-            
+            const itemsDisponibles: Item[] = [
+                { nombre: "Espada", precio: 50, stats: { ataque: 10 } },
+                { nombre: "Navaja", precio: 30, stats: { ataque: 7 } },
+                { nombre: "Alpargata", precio: 15, stats: { ataque: 2 } },
+                { nombre: "Jeringuilla", precio: 25, stats: { ataque: 3, curacion: 7 } },
+                { nombre: "Cursos de OpenWebbinars", precio: 100, stats: {curacion: 50 } },
+                { nombre: "Poción de curación", precio: 20, stats: { curacion: 15 } },
+                { nombre: "Puchero alubias", precio: 40, stats: { curacion: 30 } }
+            ];
+
+                // Mostrar las opciones de compra
+            for (let i = 0; i < itemsDisponibles.length; i++) {
+                const item = itemsDisponibles[i];
+                console.log(`${i + 1}. ${item.nombre} - ${item.precio} de oro`);
+            }
+            const opcionElegida: number = readlineSync.questionInt("Ingrese el número del ítem que desea comprar: ");
+            // Verificar si la opción elegida es válida
+            if (opcionElegida < 1 || opcionElegida > itemsDisponibles.length) {
+                console.log("Opción no válida. Por favor, ingrese un número de opción válido.");
+                return;
+            }
+            const itemSeleccionado: Item = itemsDisponibles[opcionElegida - 1];
+            if (jugador1.dinero >= itemSeleccionado.precio) {
+                jugador1.dinero -= itemSeleccionado.precio;
+                if (itemSeleccionado.stats.ataque !== undefined) {
+                    // Solo ejecuta esta línea si 'ataque' no es 'undefined'
+                    jugador1.puntosAtaque += itemSeleccionado.stats.ataque;
+                } else {
+                    console.log("El ítem seleccionado no proporciona puntos de ataque.");
+                }
+                if (itemSeleccionado.stats.curacion !== undefined) {
+                    // Solo ejecuta esta línea si 'ataque' no es 'undefined'
+                    jugador1.puntosSalud += itemSeleccionado.stats.curacion;
+                } else {
+                    console.log("El ítem seleccionado no cura.");
+                }
+            }
         }
         console.log("\nSeleccione una opción:");
         console.log("1. Luchar contra el enemigo");
@@ -153,23 +217,25 @@ function Main( ) {
         console.log("3. Consultar tus estadísticas");
         console.log("4. Salir del juego");
 
-        const opcion: number = readlineSync.question("Ingrese el número de la opción deseada: ");
+        const opcion: number = readlineSync.questionInt("Ingrese el número de la opción deseada: ");
+        console.log(`Opción ingresada: ${opcion}`);
 
         switch (opcion) {
             case 1:
                 console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
-                // Aquí puedes colocar la lógica correspondiente para la opción 1.
+                lucharEnemigo();                               
                 break;
             case 2:
                 console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
-                // Lógica para la opción 2.
+                comprarItems();
                 break;
             case 3:
                 console.log("Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.");
-                // Lógica para la opción 3.
+                console.log("Ataque: " + jugador1.puntosAtaque + "  -  Salud: " + jugador1.puntosSalud + "  -  Dinero: "+ jugador1.dinero);
                 break;
             case 4:
                 console.log("Gracias por jugar. ¡Hasta la próxima!");
+                flag = false;
                 return; // Sale del bucle y finaliza la función.
             default:
                 console.log("Opción no válida. Por favor, ingrese un número válido.");
@@ -177,8 +243,9 @@ function Main( ) {
         }
     }
     while (flag) {
-        
+        Menu();
     }
+
 }
 
 Main();
