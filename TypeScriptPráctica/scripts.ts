@@ -114,3 +114,28 @@ console.log(`Dinero que soltará el enemigo: ${enemigo1.soltarDinero()}`);
 // Ejemplo de uso
 const jugador1 = new Jugador("Jugador1");
 jugador1.imprimirAtributos();
+
+//Función Main
+
+function Main( ) {
+
+    const ElDestructordeClientes = new Enemigo ('ElDestructordeClientes',1,100);
+    const ElColetas = new Enemigo ('ElColetas',3,80);
+    const AzotadoraServer = new Enemigo ('AzotadoraServer', 1, 130);
+    const CambridgedeAlbolote = new Enemigo ('CambridgedeAlbolote',8, 50);
+    const LadySL = new Enemigo ('LadySL',5, 120);
+
+    //Array de enemigos (no tomarlo mal)
+    const Enemigos = [ElDestructordeClientes, ElColetas, AzotadoraServer, CambridgedeAlbolote, LadySL];
+    function Intro(){
+        const texto: string = `Bienvenido al reino mágico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desafíos. En este vasto territorio de maravillas y peligros, te embarcarás en una odisea única. A medida que avanzas de nivel y desafías a enemigos temibles, el mismísimo mapa de Medac se transforma y revela sus secretos más profundos.
+        Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rincón de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prepárate para explorar desiertos ardientes, selvas encantadas y gélidos picos montañosos, mientras desentrañas la historia oculta que vincula tu destino con el de Medac.
+        A medida que te aventuras más profundamente en el corazón del reino, la magnitud de tus desafíos crecerá. Enfréntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas místicas. Cada nivel superado es un paso más cerca de desentrañar los misterios que acechan en las sombras de Medac y convertirte en el héroe que el reino necesita.
+        ¡Prepárate para una experiencia única, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. ¿Estás listo para escribir tu leyenda en las tierras mágicas de Medac?`;
+        
+        console.log(texto);
+    }
+    Intro();
+}
+
+Main();
