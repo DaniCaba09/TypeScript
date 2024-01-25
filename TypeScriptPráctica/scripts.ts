@@ -112,14 +112,17 @@ class Enemigo {
 //Función Main
 
 function Main( ) {
-    const nombre = readlineSync.question('¿Cuál es tu nombre? ');
+    const nombre: string = readlineSync.question('¿Cuál es tu nombre? ');
     const jugador1: Jugador = new Jugador(nombre);
+    var flag: boolean = true;
 
-    const fuerza = readlineSync.question('Comprar fuerza. ');
+    const fuerza: string = readlineSync.question('Comprar fuerza. ');
     if (fuerza == 'a') {
         jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
         jugador1.dinero--;
         console.log(jugador1.dinero);
+        console.log(jugador1.puntosAtaque);
+
     }
 
     const ElDestructordeClientes = new Enemigo ('ElDestructordeClientes',1,100);
@@ -139,6 +142,39 @@ function Main( ) {
         console.log(texto);
     }
     //Intro();
+    function Menu() {
+        console.log("\nSeleccione una opción:");
+        console.log("1. Luchar contra el enemigo");
+        console.log("2. Comprar ítems");
+        console.log("3. Consultar tus estadísticas");
+        console.log("4. Salir del juego");
+
+        const opcion: number = readlineSync.question("Ingrese el número de la opción deseada: ");
+
+        switch (opcion) {
+            case 1:
+                console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
+                // Aquí puedes colocar la lógica correspondiente para la opción 1.
+                break;
+            case 2:
+                console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
+                // Lógica para la opción 2.
+                break;
+            case 3:
+                console.log("Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.");
+                // Lógica para la opción 3.
+                break;
+            case 4:
+                console.log("Gracias por jugar. ¡Hasta la próxima!");
+                return; // Sale del bucle y finaliza la función.
+            default:
+                console.log("Opción no válida. Por favor, ingrese un número válido.");
+                break;
+        }
+    }
+    while (flag) {
+        
+    }
 }
 
 Main();
