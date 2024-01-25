@@ -1,3 +1,4 @@
+import * as readlineSync from 'readline-sync';
 class Jugador {
     private _nombre: string;
     private _puntosSalud: number;
@@ -111,6 +112,15 @@ class Enemigo {
 //Función Main
 
 function Main( ) {
+    const nombre = readlineSync.question('¿Cuál es tu nombre? ');
+    const jugador1: Jugador = new Jugador(nombre);
+
+    const fuerza = readlineSync.question('Comprar fuerza. ');
+    if (fuerza == 'a') {
+        jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
+        jugador1.dinero--;
+        console.log(jugador1.dinero);
+    }
 
     const ElDestructordeClientes = new Enemigo ('ElDestructordeClientes',1,100);
     const ElColetas = new Enemigo ('ElColetas',3,80);
@@ -128,7 +138,7 @@ function Main( ) {
         
         console.log(texto);
     }
-    Intro();
+    //Intro();
 }
 
 Main();
