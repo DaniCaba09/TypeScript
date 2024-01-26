@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var readlineSync = require("readline-sync");
 var Jugador = /** @class */ (function () {
     function Jugador(nombre) {
         this._nombre = nombre;
@@ -64,6 +61,7 @@ var Jugador = /** @class */ (function () {
 var Enemigo = /** @class */ (function () {
     function Enemigo(nombre, puntosSalud) {
         this._nombre = nombre;
+        this._puntosAtaque = 0;
         this.calcularFuerzaEnemigo();
         this._puntosSalud = puntosSalud; // Puntos de salud inicial
     }
@@ -110,10 +108,12 @@ var Enemigo = /** @class */ (function () {
 }());
 //Función Main
 function Main() {
-    var nombre = readlineSync.question('¿Cuál es tu nombre? ');
+    // const nombre: string = readlineSync.question('¿Cuál es tu nombre? ');
+    var nombre = 'pepe';
     var jugador1 = new Jugador(nombre);
     var flag = true;
-    var fuerza = readlineSync.question('Comprar fuerza. ');
+    //const fuerza: string = readlineSync.question('Comprar fuerza. ');
+    var fuerza = 'a';
     if (fuerza == 'a') {
         jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
         jugador1.dinero--;
@@ -165,9 +165,10 @@ function Main() {
             // Mostrar las opciones de compra
             for (var i = 0; i < itemsDisponibles.length; i++) {
                 var item = itemsDisponibles[i];
-                console.log("".concat(i + 1, ". ").concat(item.nombre, " - ").concat(item.precio, " de oro"));
+                console.log("".concat(i + 1, ". ").concat(item.nombre, " - ").concat(item.precio, " de oro - ").concat(item.stats));
             }
-            var opcionElegida = readlineSync.questionInt("Ingrese el número del ítem que desea comprar: ");
+            //const opcionElegida: number = readlineSync.questionInt("Ingrese el número del ítem que desea comprar: ");
+            var opcionElegida = 2;
             // Verificar si la opción elegida es válida
             if (opcionElegida < 1 || opcionElegida > itemsDisponibles.length) {
                 console.log("Opción no válida. Por favor, ingrese un número de opción válido.");
@@ -192,12 +193,17 @@ function Main() {
                 }
             }
         }
-        console.log("\nSeleccione una opción:");
-        console.log("1. Luchar contra el enemigo");
-        console.log("2. Comprar ítems");
-        console.log("3. Consultar tus estadísticas");
-        console.log("4. Salir del juego");
-        var opcion = readlineSync.questionInt("Ingrese el número de la opción deseada: ");
+        document.addEventListener('DOMContentLoaded', function () {
+            var menu = document.getElementById('menu');
+            if (menu) {
+                menu.innerHTML = "<h1>Seleccione una opción:</h1><button>1. Luchar contra el enemigo</button><br><button>2. Comprar ítems</button><br><button>3. Consultar tus estadísticas</button><br><button>4. Salir del juego</button>";
+            }
+            else {
+                console.error("El elemento con ID 'menu' no fue encontrado.");
+            }
+        });
+        //const opcion: number = readlineSync.questionInt("Ingrese el número de la opción deseada: ");
+        var opcion = 1;
         console.log("Opci\u00F3n ingresada: ".concat(opcion));
         switch (opcion) {
             case 1:
