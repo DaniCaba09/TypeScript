@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             var menu = document.getElementById('menu');
             if (menu) {
-                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar'  onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>2. Comprar ítems</button><br><button id='btnConsultar'>3. Consultar tus estadísticas</button><br><button id='btnSalir'>4. Salir del juego</button>"; // Add event listeners to the buttons
+                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar' onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>💰Comprar ítems💰</button><br><button id='btnConsultar'>💹Consultar tus estadísticas💹</button><br><button id='btnSalir'>❌Salir del juego❌</button>"; // Add event listeners to the buttons
                 var btnLuchar = document.getElementById('btnLuchar');
                 var btnComprar = document.getElementById('btnComprar');
                 var btnConsultar = document.getElementById('btnConsultar');

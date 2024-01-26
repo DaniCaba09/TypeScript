@@ -260,7 +260,8 @@ function Main() {
             var menu: HTMLElement = document.getElementById('menu')!;
         
             if (menu) {
-                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar'  onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>2. Comprar ítems</button><br><button id='btnConsultar'>3. Consultar tus estadísticas</button><br><button id='btnSalir'>4. Salir del juego</button>";                // Add event listeners to the buttons
+                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar' onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>💰Comprar ítems💰</button><br><button id='btnConsultar'>💹Consultar tus estadísticas💹</button><br><button id='btnSalir'>❌Salir del juego❌</button>";                // Add event listeners to the buttons
+                
                 var btnLuchar: HTMLButtonElement | null = document.getElementById('btnLuchar') as HTMLButtonElement;
                 var btnComprar: HTMLButtonElement | null = document.getElementById('btnComprar') as HTMLButtonElement;
                 var btnConsultar: HTMLButtonElement | null = document.getElementById('btnConsultar') as HTMLButtonElement;
