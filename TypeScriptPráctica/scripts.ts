@@ -113,7 +113,20 @@ type Item = {
         curacion?: number;
     };
 };
+document.addEventListener('DOMContentLoaded', function() {
+function openModal() {
+    var modal: HTMLElement | null = document.getElementById('myModal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
 
+  function closeModal() {
+    var modal: HTMLElement | null = document.getElementById('myModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
 
 
 //Función Main
@@ -184,77 +197,109 @@ function Main() {
                 { nombre: "Poción de curación", precio: 20, stats: { curacion: 15 } },
                 { nombre: "Puchero alubias", precio: 40, stats: { curacion: 30 } }
             ];
+    
+            let modalContent = document.getElementById('modalContent');
 
-            // Mostrar las opciones de compra
-            for (let i = 0; i < itemsDisponibles.length; i++) {
-                const item = itemsDisponibles[i];
-                console.log(`${i + 1}. ${item.nombre} - ${item.precio} de oro - ${item.stats}`);
-            }
-            //const opcionElegida: number = readlineSync.questionInt("Ingrese el número del ítem que desea comprar: ");
-            const opcionElegida: number = 2;
-            // Verificar si la opción elegida es válida
-            if (opcionElegida < 1 || opcionElegida > itemsDisponibles.length) {
-                console.log("Opción no válida. Por favor, ingrese un número de opción válido.");
-                return;
-            }
-            const itemSeleccionado: Item = itemsDisponibles[opcionElegida - 1];
-            if (jugador1.dinero >= itemSeleccionado.precio) {
-                jugador1.dinero -= itemSeleccionado.precio;
-                if (itemSeleccionado.stats.ataque !== undefined) {
-                    // Solo ejecuta esta línea si 'ataque' no es 'undefined'
-                    jugador1.puntosAtaque += itemSeleccionado.stats.ataque;
-                } else {
-                    console.log("El ítem seleccionado no proporciona puntos de ataque.");
+            if (modalContent) {
+                modalContent.innerHTML = '';
+        
+                for (let i = 0; i < itemsDisponibles.length; i++) {
+                    let item = itemsDisponibles[i];
+                    let buttonId = "btnComprarItem" + (i + 1);
+                    modalContent.innerHTML += `<p>${i + 1}. ${item.nombre} - ${item.precio} de oro - ${JSON.stringify(item.stats)}
+                            <button id="${buttonId}">Comprar</button></p>`;
                 }
-                if (itemSeleccionado.stats.curacion !== undefined) {
-                    // Solo ejecuta esta línea si 'ataque' no es 'undefined'
-                    jugador1.puntosSalud += itemSeleccionado.stats.curacion;
-                } else {
-                    console.log("El ítem seleccionado no cura.");
+        
+                for (let i = 0; i < itemsDisponibles.length; i++) {
+                    let item = itemsDisponibles[i];
+                    let buttonId = "btnComprarItem" + (i + 1);
+                    let btnComprarItem = document.getElementById(buttonId);
+        
+                    if (btnComprarItem) {
+                        btnComprarItem.addEventListener('click', function () {
+                            console.log(`Button ${buttonId} clicked`);
+                            console.log(item);
+                            // Call a function to handle the purchase
+                            handleCompra(item);
+                        });
+                    } else {
+                        console.error("Button " + buttonId + " not found");
+                    }
                 }
+        
+                // Open the modal
+                openModal();
+            } else {
+                console.error("Element with ID 'modalContent' not found");
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        function handleCompra(item: Item) {
+            console.log('Handling purchase for item:', item.nombre);
+            // Verify if the player has enough money to buy the item
+            if (jugador1.dinero >= item.precio) {
+                // Deduct the price of the item from the player's money
+                jugador1.dinero -= item.precio;
+                // Check if the item provides attack stats and apply them
+                if (item.stats.ataque !== undefined) {
+                    jugador1.puntosAtaque += item.stats.ataque;
+                    console.log(`¡Has comprado ${item.nombre} por ${item.precio} de oro! Aumentó tu ataque en ${item.stats.ataque}.`);
+                }
+                // Check if the item provides healing stats and apply them
+                if (item.stats.curacion !== undefined) {
+                    jugador1.puntosSalud += item.stats.curacion;
+                    console.log(`¡Has comprado ${item.nombre} por ${item.precio} de oro! Recuperaste ${item.stats.curacion} puntos de salud.`);
+                }
+                // Print current player stats
+                console.log("Player stats after purchase - Ataque:", jugador1.puntosAtaque, "Salud:", jugador1.puntosSalud, "Dinero:", jugador1.dinero);
+            } else {
+                console.log("No tienes suficiente oro para comprar este ítem.");
+            }
+        }
+    
+        
             var menu: HTMLElement = document.getElementById('menu')!;
         
             if (menu) {
-                menu.innerHTML = "<h1>Seleccione una opción:</h1><button>1. Luchar contra el enemigo</button><br><button>2. Comprar ítems</button><br><button>3. Consultar tus estadísticas</button><br><button>4. Salir del juego</button>";
-            } else {
+                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar'  onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>2. Comprar ítems</button><br><button id='btnConsultar'>3. Consultar tus estadísticas</button><br><button id='btnSalir'>4. Salir del juego</button>";                // Add event listeners to the buttons
+                var btnLuchar: HTMLButtonElement | null = document.getElementById('btnLuchar') as HTMLButtonElement;
+                var btnComprar: HTMLButtonElement | null = document.getElementById('btnComprar') as HTMLButtonElement;
+                var btnConsultar: HTMLButtonElement | null = document.getElementById('btnConsultar') as HTMLButtonElement;
+                var btnSalir: HTMLButtonElement | null = document.getElementById('btnSalir') as HTMLButtonElement;
+        
+                if (btnLuchar && btnComprar && btnConsultar && btnSalir) {
+                    btnLuchar.addEventListener('click', function () {
+                        console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
+                        lucharEnemigo();
+                    });
+        
+                    btnComprar.addEventListener('click', function () {
+                        console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
+                        comprarItems();
+                    });
+        
+                    btnConsultar.addEventListener('click', function () {
+                        console.log("Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.");
+                        console.log("Ataque: " + jugador1.puntosAtaque + "  -  Salud: " + jugador1.puntosSalud + "  -  Dinero: " + jugador1.dinero);
+                    });
+        
+                    btnSalir.addEventListener('click', function () {
+                        console.log("Gracias por jugar. ¡Hasta la próxima!");
+                        // Include any necessary cleanup or exit logic here
+                    });
+                }
+            }  else {
                 console.error("El elemento con ID 'menu' no fue encontrado.");
             }
-        });
         
-
-        //const opcion: number = readlineSync.questionInt("Ingrese el número de la opción deseada: ");
-        const opcion: number = 1;
-        console.log(`Opción ingresada: ${opcion}`);
-
-        switch (opcion) {
-            case 1:
-                console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
-                lucharEnemigo();
-                break;
-            case 2:
-                console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
-                comprarItems();
-                break;
-            case 3:
-                console.log("Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.");
-                console.log("Ataque: " + jugador1.puntosAtaque + "  -  Salud: " + jugador1.puntosSalud + "  -  Dinero: " + jugador1.dinero);
-                break;
-            case 4:
-                console.log("Gracias por jugar. ¡Hasta la próxima!");
-                flag = false;
-                return; // Sale del bucle y finaliza la función.
-            default:
-                console.log("Opción no válida. Por favor, ingrese un número válido.");
-                break;
-        }
     }
-    while (flag) {
         Menu();
-    }
-
 }
-
 Main();
+
+});
+
+function ocultarBatalla() {
+    var mostrar = document.getElementById('luchar');
+
+    mostrar!.style.display='block';
+}

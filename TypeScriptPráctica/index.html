@@ -5,29 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reinado Medac</title>
-    <script type="module" src="scripts.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
         body {
             background: url(img/rio-mont-saint-michel.jpg);
             background-repeat: no-repeat;
             background-size: cover;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: aliceblue;
+            font-weight: 400;
         }
 
         .titulo {
+            color: aliceblue;
             justify-content: center;
             align-items: center;
             display: flex;
-            font-size: 600%;
+            font-size: 7rem;
+            text-shadow: 5px 5px 8px rgb(0, 0, 0);
+            font-weight: 500;
         }
 
         #input {
             justify-content: center;
             align-items: center;
             display: flex;
+            transition: all 1s;
         }
-        #NombreUsuario{
-            width: 500%;
-            height: 7vh;
+
+        #input:hover {
+            transform: scale(1.1);
+        }
+
+        #NombreUsuario {
+
+            text-align: center;
+            width: 500px;
+            height: 3vh;
+            background-color: black;
+            border: 1px solid;
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-size: 300%;
+            text-shadow: 2px 2px 2px rgb(161, 161, 161);
+        }
+
+        .menucentro {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            text-align: center;
+        }
+
+
+        button {
+            width: 90%;
+            background-color: rgba(0, 0, 0, 0.414);
+            font-size: 20px;
+            border: 1px solid;
+            border-radius: 5px;
+            color: rgb(187, 187, 187);
+            transition: all 1s;
+            margin-bottom: 0.4%;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: azure;
+            color: black;
+        }
+
+        #luchar {
+            display: none;
+        }
+
+        .batalla {
+            margin-top: 2%;
+            height: 50vh;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            text-align: center;
+        }
+
+        #vs:hover {
+            transform: rotate(360deg);
+            transition: all 2s;
         }
     </style>
 </head>
@@ -45,17 +110,36 @@
             </form>
         </div>
 
-        <div id="menu"></div>
+        <div class="menucentro">
+            <div id="menu"></div>
+        </div>
 
-        <div class="batalla">
-            <div class="imagenJugador">
-                <img src="img/Jugador.svg" alt="">
-            </div>
-            <div class="imagenEnemigo">
-
+        <div id="luchar">
+            <div class="batalla">
+                <div class="imagenJugador">
+                    <img class="animate__animated animate__bounceInLeft" src="img/nosotrosw.png" alt="" width="40%">
+                </div>
+                <div id="vs" style="font-size: 900%;font-family: fantasy; text-shadow: 5px 5px 2px rgb(161, 161, 161);">
+                    VS</div>
+                <div class="imagenEnemigo">
+                    <img class="animate__animated animate__bounceInRight animate__delay-1s" src="img/empresas (1).png"
+                        alt="" width="40%">
+                </div>
             </div>
         </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <!-- Eliminé la llamada a closeModal() aquí -->
+                <span class="close">&times;</span>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+
+
     </div>
+
+    <script src="scripts.js"></script>
 </body>
 
 </html>
