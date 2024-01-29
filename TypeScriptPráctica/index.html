@@ -38,13 +38,21 @@
         }
 
         #NombreUsuario {
-
+            color: aliceblue;
             text-align: center;
             width: 500px;
             height: 3vh;
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.321);
             border: 1px solid;
             border-radius: 5px;
+        }
+
+        #enviar {
+            background-color: rgba(0, 0, 0, 0.321);
+            height: 3vh;
+            border: 1px solid;
+            border-radius: 5px;
+            color: aliceblue;
         }
 
         h1 {
@@ -57,12 +65,13 @@
             align-items: center;
             display: flex;
             text-align: center;
+            margin-top: -3%;
         }
 
 
         button {
             width: 90%;
-            background-color: rgba(0, 0, 0, 0.414);
+            background-color: rgb(52, 52, 52);
             font-size: 20px;
             border: 1px solid;
             border-radius: 5px;
@@ -94,7 +103,71 @@
             transform: rotate(360deg);
             transition: all 2s;
         }
+
+        #estadisticas {
+            display: none;
+        }
+
+        #stats {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        table {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            text-align: center;
+        }
+
+        th {
+            font-size: 180%;
+            justify-content: space-between;
+        }
+
+        td {
+            font-size: 180%;
+        }
+
+        tr {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5%;
+        }
+
+        tbody {
+            width: 120%;
+        }
+
+        #yeye {
+            gap: 13%;
+        }
+
+        #itemss {
+            display: none;
+        }
+
+        #contenedor {
+            display: inline-block;
+            margin-right: 5%;
+            text-align: center;
+        }
+
+        #myModal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #aju {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
+     <script src="scripts.js"></script>
 </head>
 
 <body>
@@ -105,16 +178,18 @@
         </div>
 
         <div id="input">
-            <form action="">
-                <input type="text" name="NombreUsuario" id="NombreUsuario" placeholder="Introducir Nombre Del Jugador">
-            </form>
+                <input type="text" name="NombreUsuario" id="NombreUsuario" placeholder="Introducir Nombre Del Jugador"
+                    required >
+                <input type="submit" name="enviar" id="enviar" onclick="Completo()" placeholder="Enviar">
         </div>
 
+        <div style="justify-content: center; align-items: center; display: flex; color: rgb(214, 190, 255);text-shadow: 3px 3px 3px rgb(61, 18, 162);" id="mensajebienvenido"></div>
+        
         <div class="menucentro">
             <div id="menu"></div>
         </div>
 
-        <div id="luchar">
+        <div id="luchar" onclick="ocultarBatalla()">
             <div class="batalla">
                 <div class="imagenJugador">
                     <img class="animate__animated animate__bounceInLeft" src="img/nosotrosw.png" alt="" width="40%">
@@ -122,24 +197,53 @@
                 <div id="vs" style="font-size: 900%;font-family: fantasy; text-shadow: 5px 5px 2px rgb(161, 161, 161);">
                     VS</div>
                 <div class="imagenEnemigo">
-                    <img class="animate__animated animate__bounceInRight animate__delay-1s" src="img/empresas (1).png"
+                    <img id="imagenEnemigo" class="animate__animated animate__bounceInRight animate__delay-1s" src=""
                         alt="" width="40%">
                 </div>
             </div>
         </div>
 
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <!-- Eliminé la llamada a closeModal() aquí -->
-                <span class="close">&times;</span>
-                <div id="modalContent"></div>
+        <div id="itemss">
+            <div id="myModal" class="modal">
+                <div id="aju">
+                    <div class="modal-content">
+                        <!-- Eliminé la llamada a closeModal() aquí -->
+                        <span class="close">&times;</span>
+                        <div id="modalContent"></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
 
+        <div id="estadisticas">
+            <div id="stats">
+                <div>
+                    <h2>Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.</h2>
+                    <table>
+                        <tr>
+                            <th style="color: bisque;">Ataque</th>
+                            <th style="color: tomato;">Salud</th>
+                            <th style="color: green;">Dinero</th>
+                        </tr>
+                        <tr id="yeye">
+                            <td id="ataque"></td>
+                            <td id="salud"></td>
+                            <td id="dinero"></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        
+
+
     </div>
 
-    <script src="scripts.js"></script>
+   
 </body>
 
 </html>

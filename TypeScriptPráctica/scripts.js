@@ -106,7 +106,8 @@ var Enemigo = /** @class */ (function () {
     };
     return Enemigo;
 }());
-document.addEventListener('DOMContentLoaded', function () {
+//Función Main
+function Completo() {
     function openModal() {
         var modal = document.getElementById('myModal');
         if (modal) {
@@ -119,11 +120,13 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'none';
         }
     }
-    //Función Main
     function Main() {
         // const nombre: string = readlineSync.question('¿Cuál es tu nombre? ');
-        var nombre = 'pepe';
+        var nombre = document.getElementById('NombreUsuario').value;
         var jugador1 = new Jugador(nombre);
+        console.log(jugador1.nombre); //NO MUESTRA EL NOMBRE
+        var bienvenido = document.getElementById('mensajebienvenido');
+        bienvenido.innerHTML = "<h2>Bienvenido a Reinado Medac, ".concat(jugador1.nombre);
         var flag = true;
         //const fuerza: string = readlineSync.question('Comprar fuerza. ');
         var fuerza = 'a';
@@ -134,24 +137,27 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(jugador1.puntosAtaque);
             console.log(jugador1.puntosSalud);
         }
-        var ElDestructordeClientes = new Enemigo('ElDestructordeClientes', 100);
-        var ElColetas = new Enemigo('ElColetas', 80);
-        var AzotadoraServer = new Enemigo('AzotadoraServer', 130);
-        var CambridgedeAlbolote = new Enemigo('CambridgedeAlbolote', 50);
-        var LadySL = new Enemigo('LadySL', 120);
+        var ElDestructordeClientes = { modo: new Enemigo('ElDestructordeClientes', 100), img: "img/javi.png" };
+        var ElColetas = { modo: new Enemigo('ElColetas', 80), img: "img/isaac.png" };
+        var AzotadoraServer = { modo: new Enemigo('AzotadoraServer', 130), img: "img/evelyn.png" };
+        var CambridgedeAlbolote = { modo: new Enemigo('CambridgedeAlbolote', 50), img: "img/ingles.png" };
+        var LadySL = { modo: new Enemigo('LadySL', 120), img: "img/empresas (1).png" };
         //Array de enemigos (no tomarlo mal)
         var Enemigos = [ElDestructordeClientes, ElColetas, AzotadoraServer, CambridgedeAlbolote, LadySL];
         function Intro() {
-            var texto = "Bienvenido al reino m\u00E1gico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desaf\u00EDos. En este vasto territorio de maravillas y peligros, te embarcar\u00E1s en una odisea \u00FAnica. A medida que avanzas de nivel y desaf\u00EDas a enemigos temibles, el mism\u00EDsimo mapa de Medac se transforma y revela sus secretos m\u00E1s profundos.\n        Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rinc\u00F3n de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prep\u00E1rate para explorar desiertos ardientes, selvas encantadas y g\u00E9lidos picos monta\u00F1osos, mientras desentra\u00F1as la historia oculta que vincula tu destino con el de Medac.\n        A medida que te aventuras m\u00E1s profundamente en el coraz\u00F3n del reino, la magnitud de tus desaf\u00EDos crecer\u00E1. Enfr\u00E9ntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas m\u00EDsticas. Cada nivel superado es un paso m\u00E1s cerca de desentra\u00F1ar los misterios que acechan en las sombras de Medac y convertirte en el h\u00E9roe que el reino necesita.\n        \u00A1Prep\u00E1rate para una experiencia \u00FAnica, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. \u00BFEst\u00E1s listo para escribir tu leyenda en las tierras m\u00E1gicas de Medac?";
-            console.log(texto);
+            var texto = "INTRODUCCI\u00D3N. \n Bienvenido al reino m\u00E1gico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desaf\u00EDos. En este vasto territorio de maravillas y peligros, te embarcar\u00E1s en una odisea \u00FAnica. A medida que avanzas de nivel y desaf\u00EDas a enemigos temibles, el mism\u00EDsimo mapa de Medac se transforma y revela sus secretos m\u00E1s profundos.\n        Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rinc\u00F3n de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prep\u00E1rate para explorar desiertos ardientes, selvas encantadas y g\u00E9lidos picos monta\u00F1osos, mientras desentra\u00F1as la historia oculta que vincula tu destino con el de Medac.\n        A medida que te aventuras m\u00E1s profundamente en el coraz\u00F3n del reino, la magnitud de tus desaf\u00EDos crecer\u00E1. Enfr\u00E9ntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas m\u00EDsticas. Cada nivel superado es un paso m\u00E1s cerca de desentra\u00F1ar los misterios que acechan en las sombras de Medac y convertirte en el h\u00E9roe que el reino necesita.\n        \u00A1Prep\u00E1rate para una experiencia \u00FAnica, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. \u00BFEst\u00E1s listo para escribir tu leyenda en las tierras m\u00E1gicas de Medac?";
+            alert(texto);
         }
         //Intro();
         function Menu() {
+            Intro();
             function lucharEnemigo() {
                 var sacarEnemigo = Enemigos[Math.floor(Math.random() * Enemigos.length)];
-                var fuerzaEnemigo = sacarEnemigo.puntosAtaque;
+                var imagenEnemigo = document.getElementById('imagenEnemigo');
+                imagenEnemigo.src = sacarEnemigo.img;
+                var fuerzaEnemigo = sacarEnemigo.modo.puntosAtaque;
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
-                    jugador1.dinero += sacarEnemigo.soltarDinero();
+                    jugador1.dinero += sacarEnemigo.modo.soltarDinero();
                     console.log("El jugador ".concat(jugador1.nombre, " gana la batalla y recibe oro extra."));
                 }
                 else {
@@ -163,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         flag = false;
                     }
                 }
-                console.log("Te enfrentas a ".concat(sacarEnemigo.nombre, "."));
+                console.log("Te enfrentas a ".concat(sacarEnemigo.modo.nombre, "."));
             }
             function comprarItems() {
                 var itemsDisponibles = [
@@ -181,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     for (var i = 0; i < itemsDisponibles.length; i++) {
                         var item = itemsDisponibles[i];
                         var buttonId = "btnComprarItem" + (i + 1);
-                        modalContent.innerHTML += "<p>".concat(i + 1, ". ").concat(item.nombre, " - ").concat(item.precio, " de oro - ").concat(JSON.stringify(item.stats), "\n                            <button id=\"").concat(buttonId, "\">Comprar</button></p>");
+                        modalContent.innerHTML += "<div id='contenedor'><h2>".concat(i + 1, ". ").concat(item.nombre, " </h2><h4> Precio: ").concat(item.precio, " de oro </h4><h4> Consigues: ").concat(JSON.stringify(item.stats), "\n                            </h4><button class='botoncomprar' id=\"").concat(buttonId, "\">Adquirir</button></div>");
                     }
                     var _loop_1 = function (i) {
                         var item = itemsDisponibles[i];
@@ -234,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             var menu = document.getElementById('menu');
             if (menu) {
-                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar' onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar'>💰Comprar ítems💰</button><br><button id='btnConsultar'>💹Consultar tus estadísticas💹</button><br><button id='btnSalir'>❌Salir del juego❌</button>"; // Add event listeners to the buttons
+                menu.innerHTML = "<h1>Seleccione una opción:</h1><button id='btnLuchar' onclick='ocultarBatalla()'>🔪 Luchar contra el enemigo🔪</button><br><button id='btnComprar' onclick='mostraritems()'>💰Comprar ítems💰</button><br><button id='btnConsultar' onclick='mostrarstats()'>💹Consultar tus estadísticas💹</button><br><button id='btnSalir'>❌Salir del juego❌</button>"; // Add event listeners to the buttons
                 var btnLuchar = document.getElementById('btnLuchar');
                 var btnComprar = document.getElementById('btnComprar');
                 var btnConsultar = document.getElementById('btnConsultar');
@@ -247,14 +253,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     btnComprar.addEventListener('click', function () {
                         console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
                         comprarItems();
+                        mostraritems();
                     });
                     btnConsultar.addEventListener('click', function () {
-                        console.log("Has elegido consultar tus estadísticas. Mira tu progreso hasta ahora.");
-                        console.log("Ataque: " + jugador1.puntosAtaque + "  -  Salud: " + jugador1.puntosSalud + "  -  Dinero: " + jugador1.dinero);
+                        var puntosAtaque = document.getElementById('ataque');
+                        var puntosSalud = document.getElementById('salud');
+                        var dinero = document.getElementById('dinero');
+                        puntosAtaque.innerHTML = " ".concat(jugador1.puntosAtaque);
+                        puntosSalud.innerHTML = " ".concat(jugador1.puntosSalud);
+                        dinero.innerHTML = " ".concat(jugador1.dinero);
+                        mostrarstats();
                     });
                     btnSalir.addEventListener('click', function () {
-                        console.log("Gracias por jugar. ¡Hasta la próxima!");
-                        // Include any necessary cleanup or exit logic here
+                        alert("Gracias por jugar. ¡Hasta la próxima!");
+                        var body = document.body;
+                        body.style.display = 'none';
                     });
                 }
             }
@@ -265,8 +278,34 @@ document.addEventListener('DOMContentLoaded', function () {
         Menu();
     }
     Main();
-});
+}
 function ocultarBatalla() {
-    var mostrar = document.getElementById('luchar');
-    mostrar.style.display = 'block';
+    var mostrarlucha = document.getElementById('luchar');
+    var items = document.getElementById('itemss');
+    var mostrarstats = document.getElementById('estadisticas');
+    var body = document.body;
+    mostrarlucha.style.display = 'block';
+    mostrarstats.style.display = 'none';
+    items.style.display = 'none';
+    body.style.overflow = 'hidden';
+}
+function mostrarstats() {
+    var mostrarlucha = document.getElementById('luchar');
+    var mostrarstats = document.getElementById('estadisticas');
+    var items = document.getElementById('itemss');
+    var body = document.body;
+    mostrarlucha.style.display = 'none';
+    mostrarstats.style.display = 'block';
+    items.style.display = 'none';
+    body.style.overflow = 'hidden';
+}
+function mostraritems() {
+    var mostrarlucha = document.getElementById('luchar');
+    var items = document.getElementById('itemss');
+    var mostrarstats = document.getElementById('estadisticas');
+    var body = document.body;
+    mostrarlucha.style.display = 'none';
+    items.style.display = 'block';
+    mostrarstats.style.display = 'none';
+    body.style.overflow = 'auto';
 }
