@@ -127,16 +127,16 @@ function Completo() {
         console.log(jugador1.nombre); //NO MUESTRA EL NOMBRE
         var bienvenido = document.getElementById('mensajebienvenido');
         bienvenido.innerHTML = "<h2>Bienvenido a Reinado Medac, ".concat(jugador1.nombre);
-        var flag = true;
-        //const fuerza: string = readlineSync.question('Comprar fuerza. ');
-        var fuerza = 'a';
-        if (fuerza == 'a') {
+        var comprarFuerza = document.getElementById('comprarFuerza');
+        var fuerza = document.getElementById('fuerza');
+        comprarFuerza.addEventListener('click', function () {
             jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
             jugador1.dinero--;
-            console.log(jugador1.dinero);
-            console.log(jugador1.puntosAtaque);
-            console.log(jugador1.puntosSalud);
-        }
+            fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
+            fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString() + '<br>';
+            fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
+        });
+        var flag = true;
         var ElDestructordeClientes = { modo: new Enemigo('ElDestructordeClientes', 100), img: "img/javi.png" };
         var ElColetas = { modo: new Enemigo('ElColetas', 80), img: "img/isaac.png" };
         var AzotadoraServer = { modo: new Enemigo('AzotadoraServer', 130), img: "img/evelyn.png" };
@@ -287,7 +287,7 @@ function ocultarBatalla() {
     mostrarlucha.style.display = 'block';
     mostrarstats.style.display = 'none';
     items.style.display = 'none';
-    body.style.overflow = 'hidden';
+    body.style.overflow = 'auto';
 }
 function mostrarstats() {
     var mostrarlucha = document.getElementById('luchar');

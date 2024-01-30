@@ -167,7 +167,7 @@
             align-items: center;
         }
     </style>
-     <script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </head>
 
 <body>
@@ -178,13 +178,22 @@
         </div>
 
         <div id="input">
-                <input type="text" name="NombreUsuario" id="NombreUsuario" placeholder="Introducir Nombre Del Jugador"
-                    required >
-                <input type="submit" name="enviar" id="enviar" onclick="Completo()" placeholder="Enviar">
+            <input type="text" name="NombreUsuario" id="NombreUsuario" placeholder="Introducir Nombre Del Jugador"
+                required>
+            <input type="submit" name="enviar" id="enviar" onclick="Completo()" placeholder="Enviar">
         </div>
 
-        <div style="justify-content: center; align-items: center; display: flex; color: rgb(214, 190, 255);text-shadow: 3px 3px 3px rgb(61, 18, 162);" id="mensajebienvenido"></div>
-        
+        <div style="justify-content: center; align-items: center; display: flex; color: rgb(214, 190, 255);text-shadow: 3px 3px 3px rgb(61, 18, 162);"
+            id="mensajebienvenido"></div>
+
+        <div style="margin-top: 1%;margin-bottom: 1%;justify-content: center; align-items: center; display: flex;text-align: center;">
+            <div>
+                <button id="comprarFuerza">Comprar Fuerza</button>
+                <br>
+                <div id="fuerza"></div>
+            </div>
+        </div>
+
         <div class="menucentro">
             <div id="menu"></div>
         </div>
@@ -238,12 +247,12 @@
             </div>
         </div>
 
-        
+
 
 
     </div>
 
-   
+
 </body>
 
 </html>
