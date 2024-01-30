@@ -115,13 +115,16 @@ function Completo() {
         }
     }
     function closeModal() {
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById("itemss");
         if (modal) {
             modal.style.display = 'none';
         }
     }
+    var closeButton = document.getElementById("close");
+    if (closeButton) {
+        closeButton.onclick = closeModal;
+    }
     function Main() {
-        // const nombre: string = readlineSync.question('¿Cuál es tu nombre? ');
         var nombre = document.getElementById('NombreUsuario').value;
         var jugador1 = new Jugador(nombre);
         console.log(jugador1.nombre); //NO MUESTRA EL NOMBRE
@@ -131,11 +134,18 @@ function Completo() {
         var comprarFuerza = document.getElementById('comprarFuerza');
         var fuerza = document.getElementById('fuerza');
         comprarFuerza.addEventListener('click', function () {
-            jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
-            jugador1.dinero--;
-            fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
-            fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString() + '<br>';
-            fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
+            var contador = 0;
+            if (jugador1.dinero > 0 && contador < 2) {
+                jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
+                jugador1.dinero--;
+                contador++;
+                fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
+                fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString() + '<br>';
+                fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
+            }
+            else {
+                consola.innerHTML += "<div style=\"color:orange\">Ya no puedes comprar m\u00E1s, solo se puede comprar fuerza 2 veces</div>";
+            }
         });
         var ElDestructordeClientes = { modo: new Enemigo('ElDestructordeClientes', 100), img: "img/javi.png" };
         var ElColetas = { modo: new Enemigo('ElColetas', 80), img: "img/isaac.png" };
@@ -145,10 +155,20 @@ function Completo() {
         //Array de enemigos (no tomarlo mal)
         var Enemigos = [ElDestructordeClientes, ElColetas, AzotadoraServer, CambridgedeAlbolote, LadySL];
         function Intro() {
-            var texto = "INTRODUCCI\u00D3N. \n Bienvenido al reino m\u00E1gico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desaf\u00EDos. En este vasto territorio de maravillas y peligros, te embarcar\u00E1s en una odisea \u00FAnica. A medida que avanzas de nivel y desaf\u00EDas a enemigos temibles, el mism\u00EDsimo mapa de Medac se transforma y revela sus secretos m\u00E1s profundos.\n        Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rinc\u00F3n de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prep\u00E1rate para explorar desiertos ardientes, selvas encantadas y g\u00E9lidos picos monta\u00F1osos, mientras desentra\u00F1as la historia oculta que vincula tu destino con el de Medac.\n        A medida que te aventuras m\u00E1s profundamente en el coraz\u00F3n del reino, la magnitud de tus desaf\u00EDos crecer\u00E1. Enfr\u00E9ntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas m\u00EDsticas. Cada nivel superado es un paso m\u00E1s cerca de desentra\u00F1ar los misterios que acechan en las sombras de Medac y convertirte en el h\u00E9roe que el reino necesita.\n        \u00A1Prep\u00E1rate para una experiencia \u00FAnica, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. \u00BFEst\u00E1s listo para escribir tu leyenda en las tierras m\u00E1gicas de Medac?";
-            alert(texto);
+            var popup = document.getElementById("popup");
+            var popupText = document.getElementById("popup-text");
+            var texto = "Bienvenido al reino m\u00E1gico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desaf\u00EDos. En este vasto territorio de maravillas y peligros, te embarcar\u00E1s en una odisea \u00FAnica. A medida que avanzas de nivel y desaf\u00EDas a enemigos temibles, el mism\u00EDsimo mapa de Medac se transforma y revela sus secretos m\u00E1s profundos.\n        Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rinc\u00F3n de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prep\u00E1rate para explorar desiertos ardientes, selvas encantadas y g\u00E9lidos picos monta\u00F1osos, mientras desentra\u00F1as la historia oculta que vincula tu destino con el de Medac.\n        A medida que te aventuras m\u00E1s profundamente en el coraz\u00F3n del reino, la magnitud de tus desaf\u00EDos crecer\u00E1. Enfr\u00E9ntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas m\u00EDsticas. Cada nivel superado es un paso m\u00E1s cerca de desentra\u00F1ar los misterios que acechan en las sombras de Medac y convertirte en el h\u00E9roe que el reino necesita.\n        \u00A1Prep\u00E1rate para una experiencia \u00FAnica, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. \u00BFEst\u00E1s listo para escribir tu leyenda en las tierras m\u00E1gicas de Medac?";
+            popupText.textContent = texto;
+            popup.style.display = "block";
         }
-        //Intro();
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+        var closeButton = document.getElementById("cerrar");
+        if (closeButton) {
+            closeButton.addEventListener("click", closePopup);
+        }
         function Menu() {
             Intro();
             function lucharEnemigo() {
@@ -156,7 +176,9 @@ function Completo() {
                 var imagenEnemigo = document.getElementById('imagenEnemigo');
                 imagenEnemigo.src = sacarEnemigo.img;
                 var fuerzaEnemigo = sacarEnemigo.modo.puntosAtaque;
-                consola.innerHTML += "Te enfrentas a ".concat(sacarEnemigo.modo.nombre, ".");
+                consola.innerHTML += "<div style=\"color:red; font-size:15px\">Te enfrentas a ".concat(sacarEnemigo.modo.nombre, ".</div>");
+                consola.innerHTML += "<div style=\"font-weight:bold; font-size:15px\">Fuerza de ".concat(sacarEnemigo.modo.nombre, ": ").concat(sacarEnemigo.modo.puntosAtaque, ".</div>");
+                consola.innerHTML += "<div style=\"font-weight:bold; font-size:15px\">Tu fuerza: ".concat(jugador1.puntosAtaque, ".</div>");
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                     jugador1.dinero += sacarEnemigo.modo.soltarDinero();
                     consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe oro extra.</div>");
@@ -202,6 +224,7 @@ function Completo() {
                                 console.log(item);
                                 // Call a function to handle the purchase
                                 handleCompra(item);
+                                closeModal();
                             });
                         }
                         else {
@@ -220,21 +243,21 @@ function Completo() {
             }
             function handleCompra(item) {
                 console.log('Handling purchase for item:', item.nombre);
-                // Verify if the player has enough money to buy the item
+                // suficiente dinero
                 if (jugador1.dinero >= item.precio) {
-                    // Deduct the price of the item from the player's money
+                    // reducir dinero
                     jugador1.dinero -= item.precio;
-                    // Check if the item provides attack stats and apply them
+                    // aplica estadísitcas de ataque
                     if (item.stats.ataque !== undefined) {
                         jugador1.puntosAtaque += item.stats.ataque;
                         consola.innerHTML += "<div style=\"color: green\">\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Aument\u00F3 tu ataque en ").concat(item.stats.ataque, ".</div>");
                     }
-                    // Check if the item provides healing stats and apply them
+                    // aplica estadísitcas de curación
                     if (item.stats.curación !== undefined) {
                         jugador1.puntosSalud += item.stats.curación;
                         consola.innerHTML += "<div style=\"color: green\">\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Recuperaste ").concat(item.stats.curación, " puntos de salud.</div>");
                     }
-                    // Print current player stats
+                    //Imprime estadísticas
                     consola.innerHTML += "<div>Estad\u00EDsticas despu\u00E9s de la compra - Ataque:\", ".concat(jugador1.puntosAtaque, ", \"Salud:\", ").concat(jugador1.puntosSalud, ", \"Dinero:\", ").concat(jugador1.dinero, "</div>");
                 }
                 else {

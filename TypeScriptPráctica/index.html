@@ -25,6 +25,9 @@
             text-shadow: 5px 5px 8px rgb(0, 0, 0);
             font-weight: 500;
         }
+        .botoncomprar{
+            width: 115px;
+        }
 
         #input {
             justify-content: center;
@@ -173,12 +176,71 @@
             padding: 7px;
             color: black;
         }
+        #itemss {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        }
+
+        #myModal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            color: black;
+        }
+
+
+        #close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: red;
+        }
+        .popup {
+            margin-top: 2%;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            color: black;
+        }
+
+        .popup-content {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
     </style>
     <script src="scripts.js"></script>
 </head>
 
 <body>
     <div class="contenedorEntero">
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <p id="popup-text"></p>
+            </div>
+            <button id="cerrar" class="close">Aceptar</button>
+        </div>
 
         <div class="titulo">
             REINADO MEDAC
@@ -227,7 +289,7 @@
                 <div id="aju">
                     <div class="modal-content">
                         <!-- Eliminé la llamada a closeModal() aquí -->
-                        <span class="close">&times;</span>
+                        <span id="close" class="close">&times;</span>
                         <div id="modalContent"></div>
                     </div>
                 </div>

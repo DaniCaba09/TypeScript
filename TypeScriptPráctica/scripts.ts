@@ -126,14 +126,20 @@ function Completo() {
     }
 
     function closeModal() {
-        var modal: HTMLElement | null = document.getElementById('myModal');
+        const modal = document.getElementById("itemss");
         if (modal) {
             modal.style.display = 'none';
         }
     }
 
+
+    const closeButton = document.getElementById("close");
+
+    if (closeButton) {
+        closeButton.onclick = closeModal;
+    }
+
     function Main() {
-        // const nombre: string = readlineSync.question('¿Cuál es tu nombre? ');
         const nombre: string = (<HTMLInputElement>document.getElementById('NombreUsuario')).value;
         const jugador1 = new Jugador(nombre);
         console.log(jugador1.nombre); //NO MUESTRA EL NOMBRE
@@ -148,11 +154,18 @@ function Completo() {
         const fuerza = document.getElementById('fuerza') as HTMLElement;
 
         comprarFuerza.addEventListener('click', function() {
-            jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
-            jugador1.dinero--;
-            fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
-            fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString()+ '<br>';
-            fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
+            let contador:number = 0;
+            if (jugador1.dinero > 0 && contador < 2) {
+                jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
+                jugador1.dinero--;
+                contador++;
+                fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
+                fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString()+ '<br>';
+                fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();     
+            }else{
+                consola.innerHTML += `<div style="color:orange">Ya no puedes comprar más, solo se puede comprar fuerza 2 veces</div>`;
+            }
+
         })
         
 
@@ -167,14 +180,26 @@ function Completo() {
 
 
         function Intro() {
-            const texto: string = `INTRODUCCIÓN. \n Bienvenido al reino mágico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desafíos. En este vasto territorio de maravillas y peligros, te embarcarás en una odisea única. A medida que avanzas de nivel y desafías a enemigos temibles, el mismísimo mapa de Medac se transforma y revela sus secretos más profundos.
+            const popup = document.getElementById("popup")!;
+            const popupText = document.getElementById("popup-text")!;
+            const texto: string = `Bienvenido al reino mágico de Medac, donde la aventura aguarda a aquellos lo suficientemente valientes para enfrentarse a sus desafíos. En este vasto territorio de maravillas y peligros, te embarcarás en una odisea única. A medida que avanzas de nivel y desafías a enemigos temibles, el mismísimo mapa de Medac se transforma y revela sus secretos más profundos.
         Desde los bosques ancestrales hasta las deslumbrantes ciudades flotantes, cada rincón de Medac es testigo de tu progreso. Cada victoria sobre los enemigos reales que amenazan la paz del reino desbloquea nuevas regiones y descubre pasadizos secretos. Prepárate para explorar desiertos ardientes, selvas encantadas y gélidos picos montañosos, mientras desentrañas la historia oculta que vincula tu destino con el de Medac.
         A medida que te aventuras más profundamente en el corazón del reino, la magnitud de tus desafíos crecerá. Enfréntate a enemigos legendarios, descubre artefactos antiguos y forja alianzas con criaturas místicas. Cada nivel superado es un paso más cerca de desentrañar los misterios que acechan en las sombras de Medac y convertirte en el héroe que el reino necesita.
         ¡Prepárate para una experiencia única, donde cada paso que tomes cambia el destino de Medac y determina tu lugar en la historia! La epopeya te espera, aventurero. ¿Estás listo para escribir tu leyenda en las tierras mágicas de Medac?`;
 
-            alert(texto);
+            popupText.textContent = texto;
+            popup.style.display = "block";
         }
-        //Intro();
+
+        function closePopup() {
+            const popup = document.getElementById("popup")!;
+            popup.style.display = "none";
+        }
+        const closeButton = document.getElementById("cerrar");
+
+        if (closeButton) {
+            closeButton.addEventListener("click", closePopup);
+        }
         function Menu() {
 
             Intro();
@@ -187,7 +212,11 @@ function Completo() {
 
                 const fuerzaEnemigo = sacarEnemigo.modo.puntosAtaque;
 
-                consola!.innerHTML +=`Te enfrentas a ${sacarEnemigo.modo.nombre}.`;
+                consola!.innerHTML +=`<div style="color:red; font-size:15px">Te enfrentas a ${sacarEnemigo.modo.nombre}.</div>`;
+                consola!.innerHTML +=`<div style="font-weight:bold; font-size:15px">Fuerza de ${sacarEnemigo.modo.nombre}: ${sacarEnemigo.modo.puntosAtaque}.</div>`;
+                consola!.innerHTML +=`<div style="font-weight:bold; font-size:15px">Tu fuerza: ${jugador1.puntosAtaque}.</div>`;
+
+
 
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                     jugador1.dinero += sacarEnemigo.modo.soltarDinero();
@@ -242,6 +271,7 @@ function Completo() {
                                 console.log(item);
                                 // Call a function to handle the purchase
                                 handleCompra(item);
+                                closeModal();
                             });
                         } else {
                             console.error("Button " + buttonId + " not found");
@@ -256,21 +286,21 @@ function Completo() {
             }
             function handleCompra(item: Item) {
                 console.log('Handling purchase for item:', item.nombre);
-                // Verify if the player has enough money to buy the item
+                // suficiente dinero
                 if (jugador1.dinero >= item.precio) {
-                    // Deduct the price of the item from the player's money
+                    // reducir dinero
                     jugador1.dinero -= item.precio;
-                    // Check if the item provides attack stats and apply them
+                    // aplica estadísitcas de ataque
                     if (item.stats.ataque !== undefined) {
                         jugador1.puntosAtaque += item.stats.ataque;
                         consola.innerHTML +=`<div style="color: green">¡Has comprado ${item.nombre} por ${item.precio} de oro! Aumentó tu ataque en ${item.stats.ataque}.</div>`;
                     }
-                    // Check if the item provides healing stats and apply them
+                    // aplica estadísitcas de curación
                     if (item.stats.curación !== undefined) {
                         jugador1.puntosSalud += item.stats.curación;
                         consola.innerHTML +=`<div style="color: green">¡Has comprado ${item.nombre} por ${item.precio} de oro! Recuperaste ${item.stats.curación} puntos de salud.</div>`;
                     }
-                    // Print current player stats
+                    //Imprime estadísticas
                     consola.innerHTML +=`<div>Estadísticas después de la compra - Ataque:", ${jugador1.puntosAtaque}, "Salud:", ${jugador1.puntosSalud}, "Dinero:", ${jugador1.dinero}</div>`;
                 } else {
                     consola.innerHTML +=`<div style="color: red">"No tienes suficiente oro para comprar este ítem.</div>`;
