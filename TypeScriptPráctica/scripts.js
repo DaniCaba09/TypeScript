@@ -181,8 +181,9 @@ function Completo() {
                 consola.innerHTML += "<div style=\"font-weight:bold; font-size:15px\">Fuerza de ".concat(sacarEnemigo.modo.nombre, ": ").concat(sacarEnemigo.modo.puntosAtaque, ".</div>");
                 consola.innerHTML += "<div style=\"font-weight:bold; font-size:15px\">Tu fuerza: ".concat(jugador1.puntosAtaque, ".</div>");
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
-                    jugador1.dinero += sacarEnemigo.modo.soltarDinero();
-                    consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe ").concat(sacarEnemigo.modo.soltarDinero(), " de oro extra.</div>");
+                    var soltado = sacarEnemigo.modo.soltarDinero();
+                    jugador1.dinero += soltado;
+                    consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe ").concat(soltado, " de oro extra.</div>");
                 }
                 else {
                     var diferenciaFuerza = fuerzaEnemigo - jugador1.puntosAtaque;

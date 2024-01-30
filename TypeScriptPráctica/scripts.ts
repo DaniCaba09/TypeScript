@@ -220,8 +220,9 @@ function Completo() {
 
 
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
-                    jugador1.dinero += sacarEnemigo.modo.soltarDinero();
-                    consola.innerHTML += `<div style="color: green"> El jugador ${jugador1.nombre} gana la batalla y recibe ${sacarEnemigo.modo.soltarDinero()} de oro extra.</div>`;
+                    let soltado = sacarEnemigo.modo.soltarDinero();
+                    jugador1.dinero += soltado;
+                    consola.innerHTML += `<div style="color: green"> El jugador ${jugador1.nombre} gana la batalla y recibe ${soltado} de oro extra.</div>`;
                 } else {
                     var diferenciaFuerza = fuerzaEnemigo - jugador1.puntosAtaque;
                     jugador1.puntosSalud -= diferenciaFuerza;
