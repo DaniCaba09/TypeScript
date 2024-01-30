@@ -131,14 +131,15 @@ function Completo() {
         var bienvenido = document.getElementById('mensajebienvenido');
         bienvenido.innerHTML = "<h2>Bienvenido a Reinado Medac, ".concat(jugador1.nombre);
         var consola = document.getElementById('consola');
+        var contador = 0;
         var comprarFuerza = document.getElementById('comprarFuerza');
         var fuerza = document.getElementById('fuerza');
         comprarFuerza.addEventListener('click', function () {
-            var contador = 0;
             if (jugador1.dinero > 0 && contador < 2) {
                 jugador1.puntosAtaque = Math.floor(Math.random() * 10) + 1;
                 jugador1.dinero--;
                 contador++;
+                console.log(contador);
                 fuerza.innerHTML = 'Dinero = ' + jugador1.dinero.toString() + '<br>';
                 fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString() + '<br>';
                 fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
@@ -181,7 +182,7 @@ function Completo() {
                 consola.innerHTML += "<div style=\"font-weight:bold; font-size:15px\">Tu fuerza: ".concat(jugador1.puntosAtaque, ".</div>");
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                     jugador1.dinero += sacarEnemigo.modo.soltarDinero();
-                    consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe oro extra.</div>");
+                    consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe ").concat(sacarEnemigo.modo.soltarDinero(), " de oro extra.</div>");
                 }
                 else {
                     var diferenciaFuerza = fuerzaEnemigo - jugador1.puntosAtaque;
