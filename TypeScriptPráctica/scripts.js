@@ -127,6 +127,7 @@ function Completo() {
         console.log(jugador1.nombre); //NO MUESTRA EL NOMBRE
         var bienvenido = document.getElementById('mensajebienvenido');
         bienvenido.innerHTML = "<h2>Bienvenido a Reinado Medac, ".concat(jugador1.nombre);
+        var consola = document.getElementById('consola');
         var comprarFuerza = document.getElementById('comprarFuerza');
         var fuerza = document.getElementById('fuerza');
         comprarFuerza.addEventListener('click', function () {
@@ -136,7 +137,6 @@ function Completo() {
             fuerza.innerHTML += 'Fuerza = ' + jugador1.puntosAtaque.toString() + '<br>';
             fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
         });
-        var flag = true;
         var ElDestructordeClientes = { modo: new Enemigo('ElDestructordeClientes', 100), img: "img/javi.png" };
         var ElColetas = { modo: new Enemigo('ElColetas', 80), img: "img/isaac.png" };
         var AzotadoraServer = { modo: new Enemigo('AzotadoraServer', 130), img: "img/evelyn.png" };
@@ -156,30 +156,29 @@ function Completo() {
                 var imagenEnemigo = document.getElementById('imagenEnemigo');
                 imagenEnemigo.src = sacarEnemigo.img;
                 var fuerzaEnemigo = sacarEnemigo.modo.puntosAtaque;
+                consola.innerHTML += "Te enfrentas a ".concat(sacarEnemigo.modo.nombre, ".");
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                     jugador1.dinero += sacarEnemigo.modo.soltarDinero();
-                    console.log("El jugador ".concat(jugador1.nombre, " gana la batalla y recibe oro extra."));
+                    consola.innerHTML += "<div style=\"color: green\"> El jugador ".concat(jugador1.nombre, " gana la batalla y recibe oro extra.</div>");
                 }
                 else {
                     var diferenciaFuerza = fuerzaEnemigo - jugador1.puntosAtaque;
                     jugador1.puntosSalud -= diferenciaFuerza;
-                    console.log("Has perdido ".concat(diferenciaFuerza, " puntos de salud."));
+                    consola.innerHTML += "<div style=\"color: red\"> Has perdido ".concat(diferenciaFuerza, " puntos de salud.</div>");
                     if (jugador1.puntosSalud <= 0) {
-                        console.log('Se acabó, buena suerte pringao JAJAJ');
-                        flag = false;
+                        consola.innerHTML += 'Se acabó, buena suerte pringao JAJAJ';
                     }
                 }
-                console.log("Te enfrentas a ".concat(sacarEnemigo.modo.nombre, "."));
             }
             function comprarItems() {
                 var itemsDisponibles = [
                     { nombre: "Espada", precio: 50, stats: { ataque: 10 } },
                     { nombre: "Navaja", precio: 30, stats: { ataque: 7 } },
                     { nombre: "Alpargata", precio: 15, stats: { ataque: 2 } },
-                    { nombre: "Jeringuilla", precio: 25, stats: { ataque: 3, curacion: 7 } },
-                    { nombre: "Cursos de OpenWebbinars", precio: 100, stats: { curacion: 50 } },
-                    { nombre: "Poción de curación", precio: 20, stats: { curacion: 15 } },
-                    { nombre: "Puchero alubias", precio: 40, stats: { curacion: 30 } }
+                    { nombre: "Jeringuilla", precio: 25, stats: { ataque: 3, curación: 7 } },
+                    { nombre: "Cursos de OpenWebbinars", precio: 100, stats: { curación: 50 } },
+                    { nombre: "Poción de curación", precio: 20, stats: { curación: 15 } },
+                    { nombre: "Puchero alubias", precio: 40, stats: { curación: 30 } }
                 ];
                 var modalContent = document.getElementById('modalContent');
                 if (modalContent) {
@@ -187,7 +186,11 @@ function Completo() {
                     for (var i = 0; i < itemsDisponibles.length; i++) {
                         var item = itemsDisponibles[i];
                         var buttonId = "btnComprarItem" + (i + 1);
-                        modalContent.innerHTML += "<div id='contenedor'><h2>".concat(i + 1, ". ").concat(item.nombre, " </h2><h4> Precio: ").concat(item.precio, " de oro </h4><h4> Consigues: ").concat(JSON.stringify(item.stats), "\n                            </h4><button class='botoncomprar' id=\"").concat(buttonId, "\">Adquirir</button></div>");
+                        var statsString = Object.entries(item.stats).map(function (_a) {
+                            var key = _a[0], value = _a[1];
+                            return "".concat(key, ": ").concat(value);
+                        }).join(', ');
+                        modalContent.innerHTML += "<div id='contenedor'>\n                            <h2>".concat(item.nombre, " </h2>\n                            <img src=\"img/").concat(item.nombre, ".png\" alt=\"").concat(item.nombre, "\" width=\"70px\" height=\"70px\">\n                            <h4>").concat(item.precio, " <img src=\"img/coin.png\" alt=\"coin\" width=\"20px\" height=\"20px\" style=\"margin-top: 5px\"></h4>\n                            <h4>").concat(statsString, " </h4>\n                            <button class='botoncomprar' id=\"").concat(buttonId, "\">Adquirir</button></div>");
                     }
                     var _loop_1 = function (i) {
                         var item = itemsDisponibles[i];
@@ -224,18 +227,18 @@ function Completo() {
                     // Check if the item provides attack stats and apply them
                     if (item.stats.ataque !== undefined) {
                         jugador1.puntosAtaque += item.stats.ataque;
-                        console.log("\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Aument\u00F3 tu ataque en ").concat(item.stats.ataque, "."));
+                        consola.innerHTML += "<div style=\"color: green\">\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Aument\u00F3 tu ataque en ").concat(item.stats.ataque, ".</div>");
                     }
                     // Check if the item provides healing stats and apply them
-                    if (item.stats.curacion !== undefined) {
-                        jugador1.puntosSalud += item.stats.curacion;
-                        console.log("\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Recuperaste ").concat(item.stats.curacion, " puntos de salud."));
+                    if (item.stats.curación !== undefined) {
+                        jugador1.puntosSalud += item.stats.curación;
+                        consola.innerHTML += "<div style=\"color: green\">\u00A1Has comprado ".concat(item.nombre, " por ").concat(item.precio, " de oro! Recuperaste ").concat(item.stats.curación, " puntos de salud.</div>");
                     }
                     // Print current player stats
-                    console.log("Player stats after purchase - Ataque:", jugador1.puntosAtaque, "Salud:", jugador1.puntosSalud, "Dinero:", jugador1.dinero);
+                    consola.innerHTML += "<div>Estad\u00EDsticas despu\u00E9s de la compra - Ataque:\", ".concat(jugador1.puntosAtaque, ", \"Salud:\", ").concat(jugador1.puntosSalud, ", \"Dinero:\", ").concat(jugador1.dinero, "</div>");
                 }
                 else {
-                    console.log("No tienes suficiente oro para comprar este ítem.");
+                    consola.innerHTML += "<div style=\"color: red\">\"No tienes suficiente oro para comprar este \u00EDtem.</div>";
                 }
             }
             var menu = document.getElementById('menu');
@@ -247,11 +250,11 @@ function Completo() {
                 var btnSalir = document.getElementById('btnSalir');
                 if (btnLuchar && btnComprar && btnConsultar && btnSalir) {
                     btnLuchar.addEventListener('click', function () {
-                        console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
+                        consola.innerHTML += "<div style=\"font-weight: bold\">Has elegido luchar contra el enemigo. \u00A1Buena suerte en la batalla!</div>";
                         lucharEnemigo();
                     });
                     btnComprar.addEventListener('click', function () {
-                        console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
+                        consola.innerHTML += "<div style=\"font-weight: bold\">Has elegido comprar \u00EDtems. \u00A1Ve a la tienda y elige sabiamente!</div>";
                         comprarItems();
                         mostraritems();
                     });

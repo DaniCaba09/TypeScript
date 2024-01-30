@@ -110,7 +110,7 @@ type Item = {
     precio: number;
     stats: {
         ataque?: number;
-        curacion?: number;
+        curación?: number;
     };
 };
 
@@ -141,6 +141,8 @@ function Completo() {
         var bienvenido = document.getElementById('mensajebienvenido');
         bienvenido!.innerHTML = `<h2>Bienvenido a Reinado Medac, ${jugador1.nombre}`;
 
+        var consola = document.getElementById('consola') as HTMLElement;
+
 
         const comprarFuerza = document.getElementById('comprarFuerza') as HTMLElement;
         const fuerza = document.getElementById('fuerza') as HTMLElement;
@@ -153,8 +155,6 @@ function Completo() {
             fuerza.innerHTML += 'Salud = ' + jugador1.puntosSalud.toString();
         })
         
-
-        var flag: boolean = true;
 
         const ElDestructordeClientes = { modo: new Enemigo('ElDestructordeClientes', 100), img: "img/javi.png" };
         const ElColetas = { modo: new Enemigo('ElColetas', 80), img: "img/isaac.png" };
@@ -187,30 +187,30 @@ function Completo() {
 
                 const fuerzaEnemigo = sacarEnemigo.modo.puntosAtaque;
 
+                consola!.innerHTML +=`Te enfrentas a ${sacarEnemigo.modo.nombre}.`;
+
                 if (jugador1.puntosAtaque >= fuerzaEnemigo) {
                     jugador1.dinero += sacarEnemigo.modo.soltarDinero();
-                    console.log(`El jugador ${jugador1.nombre} gana la batalla y recibe oro extra.`);
+                    consola.innerHTML += `<div style="color: green"> El jugador ${jugador1.nombre} gana la batalla y recibe oro extra.</div>`;
                 } else {
                     var diferenciaFuerza = fuerzaEnemigo - jugador1.puntosAtaque;
                     jugador1.puntosSalud -= diferenciaFuerza;
-                    console.log(`Has perdido ${diferenciaFuerza} puntos de salud.`)
+                    consola.innerHTML +=`<div style="color: red"> Has perdido ${diferenciaFuerza} puntos de salud.</div>`;
                     if (jugador1.puntosSalud <= 0) {
-                        console.log('Se acabó, buena suerte pringao JAJAJ')
-                        flag = false;
+                        consola.innerHTML +='Se acabó, buena suerte pringao JAJAJ';
                     }
                 }
 
-                console.log(`Te enfrentas a ${sacarEnemigo.modo.nombre}.`);
             }
             function comprarItems() {
                 const itemsDisponibles: Item[] = [
                     { nombre: "Espada", precio: 50, stats: { ataque: 10 } },
                     { nombre: "Navaja", precio: 30, stats: { ataque: 7 } },
                     { nombre: "Alpargata", precio: 15, stats: { ataque: 2 } },
-                    { nombre: "Jeringuilla", precio: 25, stats: { ataque: 3, curacion: 7 } },
-                    { nombre: "Cursos de OpenWebbinars", precio: 100, stats: { curacion: 50 } },
-                    { nombre: "Poción de curación", precio: 20, stats: { curacion: 15 } },
-                    { nombre: "Puchero alubias", precio: 40, stats: { curacion: 30 } }
+                    { nombre: "Jeringuilla", precio: 25, stats: { ataque: 3, curación: 7 } },
+                    { nombre: "Cursos de OpenWebbinars", precio: 100, stats: { curación: 50 } },
+                    { nombre: "Poción de curación", precio: 20, stats: { curación: 15 } },
+                    { nombre: "Puchero alubias", precio: 40, stats: { curación: 30 } }
                 ];
 
                 let modalContent = document.getElementById('modalContent');
@@ -221,8 +221,14 @@ function Completo() {
                     for (let i = 0; i < itemsDisponibles.length; i++) {
                         let item = itemsDisponibles[i];
                         let buttonId = "btnComprarItem" + (i + 1);
-                        modalContent.innerHTML += `<div id='contenedor'><h2>${i + 1}. ${item.nombre} </h2><h4> Precio: ${item.precio} de oro </h4><h4> Consigues: ${JSON.stringify(item.stats)}
-                            </h4><button class='botoncomprar' id="${buttonId}">Adquirir</button></div>`;
+                        let statsString = Object.entries(item.stats).map(([key, value]) => `${key}: ${value}`).join(', ');
+
+                        modalContent.innerHTML += `<div id='contenedor'>
+                            <h2>${item.nombre} </h2>
+                            <img src="img/${item.nombre}.png" alt="${item.nombre}" width="70px" height="70px">
+                            <h4>${item.precio} <img src="img/coin.png" alt="coin" width="20px" height="20px" style="margin-top: 5px"></h4>
+                            <h4>${statsString} </h4>
+                            <button class='botoncomprar' id="${buttonId}">Adquirir</button></div>`;
                     }
 
                     for (let i = 0; i < itemsDisponibles.length; i++) {
@@ -257,17 +263,17 @@ function Completo() {
                     // Check if the item provides attack stats and apply them
                     if (item.stats.ataque !== undefined) {
                         jugador1.puntosAtaque += item.stats.ataque;
-                        console.log(`¡Has comprado ${item.nombre} por ${item.precio} de oro! Aumentó tu ataque en ${item.stats.ataque}.`);
+                        consola.innerHTML +=`<div style="color: green">¡Has comprado ${item.nombre} por ${item.precio} de oro! Aumentó tu ataque en ${item.stats.ataque}.</div>`;
                     }
                     // Check if the item provides healing stats and apply them
-                    if (item.stats.curacion !== undefined) {
-                        jugador1.puntosSalud += item.stats.curacion;
-                        console.log(`¡Has comprado ${item.nombre} por ${item.precio} de oro! Recuperaste ${item.stats.curacion} puntos de salud.`);
+                    if (item.stats.curación !== undefined) {
+                        jugador1.puntosSalud += item.stats.curación;
+                        consola.innerHTML +=`<div style="color: green">¡Has comprado ${item.nombre} por ${item.precio} de oro! Recuperaste ${item.stats.curación} puntos de salud.</div>`;
                     }
                     // Print current player stats
-                    console.log("Player stats after purchase - Ataque:", jugador1.puntosAtaque, "Salud:", jugador1.puntosSalud, "Dinero:", jugador1.dinero);
+                    consola.innerHTML +=`<div>Estadísticas después de la compra - Ataque:", ${jugador1.puntosAtaque}, "Salud:", ${jugador1.puntosSalud}, "Dinero:", ${jugador1.dinero}</div>`;
                 } else {
-                    console.log("No tienes suficiente oro para comprar este ítem.");
+                    consola.innerHTML +=`<div style="color: red">"No tienes suficiente oro para comprar este ítem.</div>`;
                 }
             }
 
@@ -284,12 +290,12 @@ function Completo() {
 
                 if (btnLuchar && btnComprar && btnConsultar && btnSalir) {
                     btnLuchar.addEventListener('click', function () {
-                        console.log("Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!");
+                        consola.innerHTML += `<div style="font-weight: bold">Has elegido luchar contra el enemigo. ¡Buena suerte en la batalla!</div>`;
                         lucharEnemigo();
                     });
 
                     btnComprar.addEventListener('click', function () {
-                        console.log("Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!");
+                        consola.innerHTML += `<div style="font-weight: bold">Has elegido comprar ítems. ¡Ve a la tienda y elige sabiamente!</div>`;
                         comprarItems();
                         mostraritems();
                     });
